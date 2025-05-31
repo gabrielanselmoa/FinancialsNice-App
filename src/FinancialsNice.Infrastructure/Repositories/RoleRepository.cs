@@ -68,8 +68,23 @@ public class RoleRepository : IRoleRepository
                 },
                 new Permission()
                 {
-                    Name = "download_invoices",
+                    Name = "/download_invoices",
                     SlugName = "download-invoices"
+                },
+                new Permission()
+                {
+                    Name = "/plan",
+                    SlugName = "plan"
+                },
+                new Permission()
+                {
+                    Name = "/wallet",
+                    SlugName = "wallet"
+                },
+                new Permission()
+                {
+                    Name = "/goal",
+                    SlugName = "goal"
                 }
             ]
         };
