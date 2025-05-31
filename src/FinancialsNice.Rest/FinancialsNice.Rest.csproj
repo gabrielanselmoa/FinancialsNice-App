@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetEnv" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.5" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.4.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="7.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FinancialsNice.Application\FinancialsNice.Application.csproj" />
+    <ProjectReference Include="..\FinancialsNice.Infrastructure\FinancialsNice.Infrastructure.csproj" />
+    <ProjectReference Include="..\FinancialsNice.Domain\FinancialsNice.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Docs\Address\" />
+    <Folder Include="Docs\Auth\" />
+    <Folder Include="Docs\Card\" />
+    <Folder Include="Docs\Dashboard\" />
+    <Folder Include="Docs\EmailSender\" />
+    <Folder Include="Docs\Goal\" />
+    <Folder Include="Docs\Minio\" />
+    <Folder Include="Docs\PayerReceiver\" />
+    <Folder Include="Docs\Payment\" />
+    <Folder Include="Docs\Permission\" />
+    <Folder Include="Docs\Report\" />
+    <Folder Include="Docs\Role\" />
+    <Folder Include="Docs\Transaction\" />
+    <Folder Include="Docs\User\" />
+  </ItemGroup>
+
+</Project>

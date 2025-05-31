@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-FinancialsNice.Worker-d20aaede-3b63-465c-98d1-1ffec3d58180</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FinancialsNice.Application\FinancialsNice.Application.csproj" />
+    <ProjectReference Include="..\FinancialsNice.Infrastructure\FinancialsNice.Infrastructure.csproj" />
+    <ProjectReference Include="..\FinancialsNice.Domain\FinancialsNice.Domain.csproj" />
+  </ItemGroup>
+</Project>
