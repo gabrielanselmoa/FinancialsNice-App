@@ -12,16 +12,16 @@ wait_for_postgres() {
 }
 
 # Executar EF Core migrations
-run_migrations() {
-    echo "⚙️ Executando migrations com EF Core..."
-    dotnet ef database update \
-        --project FinancialsNice.Infrastructure \
-        --startup-project FinancialsNice.Rest
-}
+#run_migrations() {
+#    echo "⚙️ Executando migrations com EF Core..."
+#    dotnet ef database update \
+#        --project FinancialsNice.Infrastructure \
+#        --startup-project FinancialsNice.Rest
+#}
 
 # Execução principal
 wait_for_postgres
-run_migrations
+#run_migrations
 
 # Inicia a aplicação
 echo "🚀 Iniciando a aplicação..."

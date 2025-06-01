@@ -1,12 +1,15 @@
 using FinancialsNice.Rest;
 using DotNetEnv;
 using FinancialsNice.Application.Interfaces.WebHook;
+using FinancialsNice.Infrastructure.Data;
 using FinancialsNice.Rest.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Refit;
 
-var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
-Env.Load(isDocker ? "../.env" : "../../.env");
+// var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+// Env.Load(isDocker ? "../.env" : "../../.env");
+Env.Load("../../.env");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +35,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseScalarUI();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
 }
 
 // EXTENSION SERVICES - CORS MIDDLEWARE
