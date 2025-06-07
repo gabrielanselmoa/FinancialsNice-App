@@ -1,5 +1,5 @@
 ﻿using FinancialsNice.Application.Dtos.Dashboards;
-using FinancialsNice.Application.Dtos.ResultPattern;
+using FinancialsNice.Domain.Design_Pattern;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace FinancialsNice.Rest.Swagger.Examples.Dashboard;

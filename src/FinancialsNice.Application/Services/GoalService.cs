@@ -1,17 +1,22 @@
 ﻿using FinancialsNice.Application.Dtos.Goals;
-using FinancialsNice.Application.Dtos.ResultPattern;
+using FinancialsNice.Application.Dtos.Transferences;
 using FinancialsNice.Application.Interfaces.Services;
 using FinancialsNice.Application.Mappers;
+using FinancialsNice.Domain.Design_Pattern;
 using FinancialsNice.Domain.Entities;
 using FinancialsNice.Domain.Enums;
 using FinancialsNice.Domain.Interfaces.Repositories;
 
 namespace FinancialsNice.Application.Services;
 
-public class GoalService(IGoalRepository goalRepository, IUserRepository userRepository)
+public class GoalService(
+    IGoalRepository goalRepository,
+    IUserRepository userRepository,
+    ITransferenceRepository transferenceRepository)
     : IGoalService
 {
-    public async Task<PagedResponseModel<ICollection<GoalResponse>>> GetAllAsync(int page, int perPage, Guid userId, string? search)
+    public async Task<PagedResponseModel<ICollection<GoalResponse>>> GetAllAsync(int page, int perPage, Guid userId,
+        string? search)
     {
         var response = new PagedResponseModel<ICollection<GoalResponse>>();
         var goals = await goalRepository.GetAllAsync(userId, search);
@@ -30,7 +35,7 @@ public class GoalService(IGoalRepository goalRepository, IUserRepository userRep
             response.Success = true;
             return response;
         }
-        
+
         var dto = goals.Select(GoalMapper.ToResponse).ToList();
 
         var totalItems = goals.Count();
@@ -74,6 +79,7 @@ public class GoalService(IGoalRepository goalRepository, IUserRepository userRep
         var goal = GoalMapper.ToDomain(request);
         goal.OwnerId = userId;
         goal.Balance = user.Wallet!.Balance;
+        user.Goals?.Add(goal);
 
         await goalRepository.CreateAsync(goal);
         var dto = GoalMapper.ToResponse(goal);
@@ -89,10 +95,28 @@ public class GoalService(IGoalRepository goalRepository, IUserRepository userRep
             return response.Fail(null, "Goal not found!");
 
         var updatedGoal = GoalMapper.ToUpdate(update, existingGoal);
+        List<Transference> transferencesDomain;
+        decimal sum;
+        if (update.Transferences != null && update.Transferences.Any())
+        {
+            transferencesDomain = update.Transferences.Select(TransferenceMapper.ToDomain).ToList();
+            var currentBalance = existingGoal.Transferences?.Sum(t => t.Amount) ?? 0m;
+            var incomingAmount = transferencesDomain.Sum(t => t.Amount);
+            if ((currentBalance + incomingAmount) > updatedGoal.Target)
+                return response.Fail(null, "The total of the transferences is greater than the target!");
+            
+            foreach (var t in transferencesDomain)
+            {
+                t.GoalId = id;
+                await transferenceRepository.CreateAsync(t);
+                // updatedGoal.Transferences.Add(t);
+                updatedGoal.Balance += t.Amount;
+            }
+        }
+
         await goalRepository.UpdateAsync(id, updatedGoal);
-        
         var dto = GoalMapper.ToResponse(updatedGoal);
-        return response.Ok(dto, "Goal updated successfully.");;
+        return response.Ok(dto, "Goal updated successfully.");
     }
 
     public async Task<ResponseModel<bool>> SoftDeleteAsync(Guid id, Guid userId)

@@ -1,9 +1,9 @@
-﻿using FinancialsNice.Application.Dtos.ResultPattern;
-using FinancialsNice.Application.Dtos.Transactions;
+﻿using FinancialsNice.Application.Dtos.Transactions;
 using FinancialsNice.Application.Helpers;
 using FinancialsNice.Application.Interfaces.Services;
 using FinancialsNice.Application.Interfaces.WebHook;
 using FinancialsNice.Application.Mappers;
+using FinancialsNice.Domain.Design_Pattern;
 using FinancialsNice.Domain.Entities;
 using FinancialsNice.Domain.Enums;
 using FinancialsNice.Domain.Interfaces.Repositories;
@@ -135,20 +135,7 @@ public class TransactionService(
         transaction.WalletId = user.WalletId;
         transaction.Wallet = user.Wallet;
 
-        if (request.PayerReceiverId == null && request.GoalId == null)
-            return response.Fail(null, "You have to select for which purpose this transaction is for.");
-
-        if (request.GoalId != null && request.PayerReceiverId == null)
-        {
-            var goal = await goalRepository.GetByIdAsync(request.GoalId);
-            if (goal == null)
-                return response.Fail(null, "Goal not found!");
-
-            transaction.GoalId = goal.Id;
-            transaction.Goal = goal;
-        }
-
-        if (request.PayerReceiverId != null && request.GoalId == null)
+        if (request.PayerReceiverId != null)
         {
             var payerReceiver = await payerReceiverRepository.GetByIdAsync(request.PayerReceiverId!.Value);
             if (payerReceiver == null || payerReceiver.OwnerId != userId)
@@ -207,25 +194,6 @@ public class TransactionService(
 
         if (sum != request.Amount)
             return response.Fail(null, "Payments sum does not match the transaction amount!");
-
-        // Wallet & Goals calculation
-        if (transaction.TransactionType == TransactionType.RECEIVE && transaction.PayerReceiver != null &&
-            transaction.Goal == null)
-        {
-            user.Wallet!.Balance += request.Amount;
-        }
-        else
-        {
-            user.Wallet!.Balance -= request.Amount;
-        }
-
-        if (transaction.GoalId != null)
-        {
-            var goal = await goalRepository.GetByIdAsync(transaction.GoalId.Value);
-            if (goal == null || goal.OwnerId != userId)
-                return response.Fail(null, "Goal not found or does not belong to the user!");
-            goal.Balance = user.Wallet!.Balance;
-        }
 
         await transactionRepository.CreateAsync(transaction);
         var dto = TransactionMapper.ToResponse(transaction);

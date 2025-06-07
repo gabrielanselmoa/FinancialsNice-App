@@ -71,10 +71,5 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
             .WithMany(w => w.Transactions)
             .HasForeignKey(t => t.WalletId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne(t => t.Goal)
-            .WithMany(g => g.Transactions)
-            .HasForeignKey(t => t.GoalId)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }

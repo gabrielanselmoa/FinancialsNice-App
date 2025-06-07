@@ -19,14 +19,20 @@ public class GoalRepository : IGoalRepository
     {
         if (search == null)
             return await _context.Goals
-                .Where(g => g.OwnerId == userId && g.Status == Status.ACTIVE).ToListAsync();
+                .Where(g => g.OwnerId == userId && g.Status == Status.ACTIVE)
+                .Include(g => g.Transferences)
+                .ToListAsync();
         
-        return await _context.Goals.Where(g => g.OwnerId == userId && g.Status == Status.ACTIVE && g.Name.ToLower().Contains(search.ToLower()) ).ToListAsync();
+        return await _context.Goals.Where(g => g.OwnerId == userId && g.Status == Status.ACTIVE && g.Name.ToLower().Contains(search.ToLower()))
+            .Include(g => g.Transferences)
+            .ToListAsync();
     }
 
     public async Task<Goal?> GetByIdAsync(Guid? id)
     {
-        return await _context.Goals.FirstOrDefaultAsync(g => g.Id == id && g.Status == Status.ACTIVE);
+        return await _context.Goals
+            .Include(g => g.Transferences)
+            .FirstOrDefaultAsync(g => g.Id == id && g.Status == Status.ACTIVE);
     }
 
     public async Task CreateAsync(Goal goal)

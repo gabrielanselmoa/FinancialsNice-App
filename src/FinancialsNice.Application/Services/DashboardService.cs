@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using FinancialsNice.Application.Dtos.Dashboards;
-using FinancialsNice.Application.Dtos.ResultPattern;
 using FinancialsNice.Application.Interfaces.Services;
+using FinancialsNice.Domain.Design_Pattern;
 using FinancialsNice.Domain.Enums;
 using FinancialsNice.Domain.Interfaces.Repositories;
 

@@ -15,8 +15,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         // ATTRIBUTES
         builder.HasKey(u => u.Id);
-        // builder.HasIndex(u => u.Id).IsUnique();
-        // builder.Property(u => u.Id).ValueGeneratedOnAdd();
 
         builder.Property(u => u.Name).HasMaxLength(200).HasColumnType("VARCHAR(200)").IsRequired();
         builder.Property(u => u.BirthDate).HasColumnType("date").IsRequired(false);

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinancialsNice.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AddedTransferenceEntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -281,6 +281,28 @@ namespace FinancialsNice.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Transferences",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    Description = table.Column<string>(type: "varchar(250)", nullable: false),
+                    Currency = table.Column<string>(type: "varchar(3)", nullable: false),
+                    SentAt = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "CURRENT_DATE"),
+                    GoalId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transferences", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Transferences_Goals_GoalId",
+                        column: x => x.GoalId,
+                        principalTable: "Goals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transactions",
                 columns: table => new
                 {
@@ -299,18 +321,11 @@ namespace FinancialsNice.Infrastructure.Migrations
                     Status = table.Column<string>(type: "VARCHAR(50)", nullable: false, defaultValue: "ACTIVE"),
                     OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
                     PayerReceiverId = table.Column<Guid>(type: "uuid", nullable: true),
-                    WalletId = table.Column<Guid>(type: "uuid", nullable: false),
-                    GoalId = table.Column<Guid>(type: "uuid", nullable: true)
+                    WalletId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transactions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Transactions_Goals_GoalId",
-                        column: x => x.GoalId,
-                        principalTable: "Goals",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Transactions_PayerReceivers_PayerReceiverId",
                         column: x => x.PayerReceiverId,
@@ -461,11 +476,6 @@ namespace FinancialsNice.Infrastructure.Migrations
                 column: "ResolvedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_GoalId",
-                table: "Transactions",
-                column: "GoalId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Transactions_OwnerId",
                 table: "Transactions",
                 column: "OwnerId");
@@ -479,6 +489,11 @@ namespace FinancialsNice.Infrastructure.Migrations
                 name: "IX_Transactions_WalletId",
                 table: "Transactions",
                 column: "WalletId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transferences_GoalId",
+                table: "Transferences",
+                column: "GoalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_WalletId",
@@ -507,6 +522,9 @@ namespace FinancialsNice.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tickets");
+
+            migrationBuilder.DropTable(
+                name: "Transferences");
 
             migrationBuilder.DropTable(
                 name: "Cards");

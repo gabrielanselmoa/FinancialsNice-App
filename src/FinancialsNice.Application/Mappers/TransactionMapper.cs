@@ -56,18 +56,7 @@ namespace FinancialsNice.Application.Mappers
                             CardType = p.Card.CardType,
                             Status = p.Card.Status
                         }
-                }).ToList(),
-                Goal = transaction.Goal == null ? null : new GoalResponse()
-                {
-                    Id = transaction.GoalId!.Value,
-                    Name = transaction.Goal.Name,
-                    Balance =  transaction.Goal.Balance,
-                    Target = transaction.Goal.Target,
-                    Due =  transaction.Goal.Due,
-                    GoalType =  transaction.Goal.GoalType,
-                    CreatedAt =  transaction.Goal.CreatedAt,
-                    ModifiedAt =  transaction.Goal.ModifiedAt,
-                }
+                }).ToList()
             };
         }
 

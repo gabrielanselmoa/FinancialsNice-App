@@ -23,7 +23,5 @@ public class Transaction
     public PayerReceiver? PayerReceiver { get; set; }
     public Guid WalletId { get; set; }
     public Wallet Wallet { get; set; } =  null!;
-    public Guid? GoalId { get; set; }
-    public Goal? Goal { get; set; }
     public ICollection<Payment> Payments { get; set; } = new List<Payment>();
 }

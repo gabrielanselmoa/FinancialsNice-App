@@ -18,6 +18,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Goal> Goals { get; set; }
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<Transference> Transferences { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -34,5 +35,6 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new GoalConfiguration());
         modelBuilder.ApplyConfiguration(new WalletConfiguration());
+        modelBuilder.ApplyConfiguration(new TransferenceConfiguration());
     }
 }

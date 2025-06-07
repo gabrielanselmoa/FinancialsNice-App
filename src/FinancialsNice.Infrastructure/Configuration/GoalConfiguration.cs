@@ -19,7 +19,12 @@ public class GoalConfiguration : IEntityTypeConfiguration<Goal>
         builder.Property(g => g.Name).HasMaxLength(200).HasColumnType("VARCHAR(200)").IsRequired();
         builder.Property(g => g.Balance).HasColumnType("DECIMAL(10,2)").IsRequired();
         builder.Property(g => g.Target).HasColumnType("DECIMAL(10,2)").IsRequired();
-        builder.Property(g => g.Due).HasColumnType("timestamp with time zone").HasDefaultValueSql("CURRENT_TIMESTAMP").IsRequired();
+        builder.Property(g => g.Due).HasConversion(
+                v => v.ToDateTime(TimeOnly.MinValue), 
+                v => DateOnly.FromDateTime(v))
+            .HasColumnType("date")
+            .HasDefaultValueSql("CURRENT_DATE")
+            .IsRequired();
         
         builder.Property(g => g.CreatedAt)
             .HasColumnType("timestamp with time zone")
@@ -41,7 +46,7 @@ public class GoalConfiguration : IEntityTypeConfiguration<Goal>
         builder.HasOne(g => g.Owner).WithMany()
             .HasForeignKey(g => g.OwnerId);
         
-        builder.HasMany(g => g.Transactions)
+        builder.HasMany(g => g.Transferences)
             .WithOne(t => t.Goal)
             .HasForeignKey(t => t.GoalId);
     }

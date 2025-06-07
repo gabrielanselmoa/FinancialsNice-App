@@ -1,5 +1,5 @@
-﻿using FinancialsNice.Application.Dtos.ResultPattern;
-using FinancialsNice.Application.Dtos.Wallets;
+﻿using FinancialsNice.Application.Dtos.Wallets;
+using FinancialsNice.Domain.Design_Pattern;
 
 namespace FinancialsNice.Application.Interfaces.Services;
 

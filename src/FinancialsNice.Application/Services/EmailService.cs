@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using FinancialsNice.Application.Dtos.Emails;
-using FinancialsNice.Application.Dtos.ResultPattern;
 using FinancialsNice.Application.Interfaces.Services;
+using FinancialsNice.Domain.Design_Pattern;
 using FinancialsNice.Domain.Entities;
 using Microsoft.Extensions.Options;
 using MailKit.Net.Smtp;

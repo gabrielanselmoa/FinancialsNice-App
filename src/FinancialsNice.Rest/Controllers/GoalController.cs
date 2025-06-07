@@ -1,8 +1,10 @@
 ﻿using FinancialsNice.Application.Dtos.Goals;
 using FinancialsNice.Application.Helpers;
 using FinancialsNice.Application.Interfaces.Services;
+using FinancialsNice.Rest.Swagger.Examples.Goal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace FinancialsNice.Rest.Controllers;
 
@@ -20,7 +22,7 @@ public class GoalController(IGoalService goalService, ILogger<GoalController> lo
         [FromQuery] int page = 1, [FromQuery] int perPage = 2)
     {
         var userId = UserClaim.GetUserIdByClaims(User);
-        if (userId == null) return StatusCode(401, "Unauthorized");
+        if (userId == null) return StatusCode(401, "You do not have authorization!");
 
         try
         {
@@ -65,16 +67,18 @@ public class GoalController(IGoalService goalService, ILogger<GoalController> lo
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Erro ao criar meta.");
+            _logger.LogError(e, "API: Creating a new goal has failed!");
             return StatusCode(400, e.Message);
         }
     }
 
     [HttpPut("{id}")]
+    [ProducesResponseType(typeof(Goal200ResponseExample), StatusCodes.Status200OK)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(Goal200ResponseExample))]
     public async Task<IActionResult> UpdateGoal([FromRoute] Guid id, [FromBody] GoalUpdate update)
     {
         var userId = UserClaim.GetUserIdByClaims(User);
-        if (userId == null) return StatusCode(401, "Unauthorized");
+        if (userId == null) return StatusCode(401, "juju");
 
         try
         {
@@ -92,7 +96,7 @@ public class GoalController(IGoalService goalService, ILogger<GoalController> lo
     public async Task<IActionResult> SoftDeleteGoal([FromRoute] Guid id)
     {
         var userId = UserClaim.GetUserIdByClaims(User);
-        if (userId == null) return StatusCode(401, "Unauthorized");
+        if (userId == null) return StatusCode(401, "You're not allowed");
 
         try
         {

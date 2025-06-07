@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinancialsNice.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250530232901_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250601173617_AddedTransferenceEntity")]
+    partial class AddedTransferenceEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -468,9 +468,6 @@ namespace FinancialsNice.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("VARCHAR(200)");
 
-                    b.Property<Guid?>("GoalId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("ModifiedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -508,8 +505,6 @@ namespace FinancialsNice.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GoalId");
-
                     b.HasIndex("OwnerId");
 
                     b.HasIndex("PayerReceiverId");
@@ -517,6 +512,38 @@ namespace FinancialsNice.Infrastructure.Migrations
                     b.HasIndex("WalletId");
 
                     b.ToTable("Transactions", (string)null);
+                });
+
+            modelBuilder.Entity("FinancialsNice.Domain.Entities.Transference", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("varchar(3)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<Guid>("GoalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("SentAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValueSql("CURRENT_DATE");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoalId");
+
+                    b.ToTable("Transferences", (string)null);
                 });
 
             modelBuilder.Entity("FinancialsNice.Domain.Entities.User", b =>
@@ -768,11 +795,6 @@ namespace FinancialsNice.Infrastructure.Migrations
 
             modelBuilder.Entity("FinancialsNice.Domain.Entities.Transaction", b =>
                 {
-                    b.HasOne("FinancialsNice.Domain.Entities.Goal", "Goal")
-                        .WithMany("Transactions")
-                        .HasForeignKey("GoalId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("FinancialsNice.Domain.Entities.User", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
@@ -790,13 +812,22 @@ namespace FinancialsNice.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Goal");
-
                     b.Navigation("Owner");
 
                     b.Navigation("PayerReceiver");
 
                     b.Navigation("Wallet");
+                });
+
+            modelBuilder.Entity("FinancialsNice.Domain.Entities.Transference", b =>
+                {
+                    b.HasOne("FinancialsNice.Domain.Entities.Goal", "Goal")
+                        .WithMany("Transferences")
+                        .HasForeignKey("GoalId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Goal");
                 });
 
             modelBuilder.Entity("FinancialsNice.Domain.Entities.User", b =>
@@ -842,7 +873,7 @@ namespace FinancialsNice.Infrastructure.Migrations
 
             modelBuilder.Entity("FinancialsNice.Domain.Entities.Goal", b =>
                 {
-                    b.Navigation("Transactions");
+                    b.Navigation("Transferences");
                 });
 
             modelBuilder.Entity("FinancialsNice.Domain.Entities.Transaction", b =>

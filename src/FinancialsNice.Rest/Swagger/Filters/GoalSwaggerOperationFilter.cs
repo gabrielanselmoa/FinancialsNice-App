@@ -24,7 +24,7 @@ public class GoalSwaggerOperationFilter : IOperationFilter
                 operation.Description = "Provides a list of all goals with pagination.";
                 AddResponse("200", "List returned successfully");
                 AddResponse("400", "Invalid request");
-                AddResponse("401", "Unauthorized");
+                AddResponse("401", "You do not have authorization!");
                 break;
 
             case "GetGoalById":
@@ -32,7 +32,7 @@ public class GoalSwaggerOperationFilter : IOperationFilter
                 operation.Description = "Retrieves a specific goal by its Id.";
                 AddResponse("200", "Goal returned successfully");
                 AddResponse("400", "Invalid request");
-                AddResponse("401", "Unauthorized");
+                AddResponse("401", "You do not have authorization!");
                 AddResponse("404", "Goal not found");
                 break;
 
@@ -41,7 +41,7 @@ public class GoalSwaggerOperationFilter : IOperationFilter
                 operation.Description = "Registers a new goal in the system.";
                 AddResponse("201", "Goal created successfully");
                 AddResponse("400", "Invalid request data");
-                AddResponse("401", "Unauthorized");
+                AddResponse("401", "You do not have authorization!");
                 break;
 
             case "UpdateGoal":
@@ -49,7 +49,7 @@ public class GoalSwaggerOperationFilter : IOperationFilter
                 operation.Description = "Updates an existing goal record based on its Id.";
                 AddResponse("200", "Goal updated successfully");
                 AddResponse("400", "Invalid request data or ID format");
-                AddResponse("401", "Unauthorized");
+                AddResponse("401", "You do not have authorization!");
                 AddResponse("404", "Goal not found");
                 break;
 
@@ -58,7 +58,7 @@ public class GoalSwaggerOperationFilter : IOperationFilter
                 operation.Description = "Marks an existing goal as inactive in the system.";
                 AddResponse("204", "Goal marked as inactive");
                 AddResponse("400", "Invalid ID");
-                AddResponse("401", "Unauthorized");
+                AddResponse("401", "You do not have authorization!");
                 AddResponse("404", "Goal not found");
                 break;
 
@@ -67,7 +67,7 @@ public class GoalSwaggerOperationFilter : IOperationFilter
                 operation.Description = "Permanently deletes a goal record from the database.";
                 AddResponse("204", "Goal deleted from database");
                 AddResponse("400", "Invalid ID");
-                AddResponse("401", "Unauthorized");
+                AddResponse("401", "You do not have authorization!");
                 AddResponse("404", "Goal not found");
                 break;
 

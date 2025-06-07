@@ -15,7 +15,6 @@ namespace FinancialsNice.Application.Dtos.Transactions
         [property: JsonConverter(typeof(JsonStringEnumConverter))] TransactionType TransactionType,
         [property: JsonConverter(typeof(JsonStringEnumConverter))] TransactionStatus Status,
         Guid? PayerReceiverId,
-        Guid? GoalId,
         [Required, MinLength(1)] ICollection<PaymentRequest> Payments
     );
 }

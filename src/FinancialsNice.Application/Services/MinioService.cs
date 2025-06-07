@@ -1,7 +1,7 @@
 ﻿using FinancialsNice.Application.Dtos.Minio;
-using FinancialsNice.Application.Dtos.ResultPattern;
 using FinancialsNice.Application.Helpers;
 using FinancialsNice.Application.Interfaces.Services;
+using FinancialsNice.Domain.Design_Pattern;
 using Microsoft.AspNetCore.Http;
 using Minio;
 using Minio.DataModel.Args;

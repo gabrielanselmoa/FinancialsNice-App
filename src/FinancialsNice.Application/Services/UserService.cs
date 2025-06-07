@@ -1,7 +1,7 @@
-﻿using FinancialsNice.Application.Dtos.ResultPattern;
-using FinancialsNice.Application.Dtos.Users;
+﻿using FinancialsNice.Application.Dtos.Users;
 using FinancialsNice.Application.Interfaces.Services;
 using FinancialsNice.Application.Mappers;
+using FinancialsNice.Domain.Design_Pattern;
 using FinancialsNice.Domain.Entities;
 using FinancialsNice.Domain.Enums;
 using FinancialsNice.Domain.Interfaces.Repositories;

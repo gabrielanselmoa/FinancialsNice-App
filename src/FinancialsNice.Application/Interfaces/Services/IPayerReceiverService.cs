@@ -1,5 +1,5 @@
 ﻿using FinancialsNice.Application.Dtos.PayerReceivers;
-using FinancialsNice.Application.Dtos.ResultPattern;
+using FinancialsNice.Domain.Design_Pattern;
 using FinancialsNice.Domain.Enums;
 
 namespace FinancialsNice.Application.Interfaces.Services

@@ -27,8 +27,7 @@ public class TransactionRequestExample : IExamplesProvider<TransactionRequest>
                     Installments: 3,
                     CardId: Guid.Parse("c9d0e1f2-1234-5678-90ab-cdef12345678")
                 )
-            },
-            GoalId: Guid.Parse("a1b2c3d4-e5f6-7890-abcd-ef1234567890")
+            }
         );
     }
 }

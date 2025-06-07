@@ -20,6 +20,7 @@ public static class GoalMapper
             Due =  goal.Due,
             CreatedAt =  goal.CreatedAt,
             ModifiedAt =  goal.ModifiedAt,
+            Transferences = goal.Transferences.Select(TransferenceMapper.ToResponse).ToList(),
         };
     }
 
@@ -30,7 +31,7 @@ public static class GoalMapper
             Name = request.Name,
             Target = request.Target,
             GoalType = request.GoalType,
-            Due = DateConvertHelper.ToUtc(request.Due.ToString(CultureInfo.InvariantCulture))
+            Due = request.Due
         };
     }
 

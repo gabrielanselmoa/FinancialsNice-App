@@ -76,7 +76,6 @@ public static class SwaggerExtensions
         return services;
     }
     
-    // Este método encapsula o middleware do Swagger e Scalar UI
     public static IApplicationBuilder UseScalarUI(this WebApplication app)
     {
         app.UseSwagger();
@@ -86,7 +85,7 @@ public static class SwaggerExtensions
             options.AddDocument("v1", routePattern: "/swagger/v1/swagger.json");
 
             options.Theme = ScalarTheme.BluePlanet;
-            options.Layout = ScalarLayout.Classic;
+            options.Layout = ScalarLayout.Modern;
             options.Title = "FinNice API";
             options.DarkMode = true;
 

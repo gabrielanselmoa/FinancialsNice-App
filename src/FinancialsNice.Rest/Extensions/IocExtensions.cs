@@ -21,6 +21,7 @@ public static class IocExtensions
         services.AddScoped<IGoalRepository, GoalRepository>();
         services.AddScoped<IWalletRepository, WalletRepository>();
         services.AddScoped<ITicketRepository, TicketRepository>();
+        services.AddScoped<ITransferenceRepository, TransferenceRepository>();
         
         return services;
     }  
@@ -45,6 +46,7 @@ public static class IocExtensions
         services.AddScoped<IWalletService, WalletService>();
         services.AddScoped<IPdfGenerator, PdfGeneratorService>();
         services.AddScoped<ITicketService, TicketService>();
+        services.AddScoped<ITransferenceService, TransferenceService>();
         
         return services;
     }

@@ -8,5 +8,5 @@ public record GoalRequest(
     [Required, StringLength(100)] string Name,
     [Required, Range(0.01, double.MaxValue)] decimal Target,
     [Required] [property: JsonConverter(typeof(JsonStringEnumConverter))] GoalType GoalType,
-    [Required] string Due
+    [Required] DateOnly Due
 );

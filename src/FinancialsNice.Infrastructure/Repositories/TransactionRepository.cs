@@ -15,7 +15,7 @@ public class TransactionRepository : ITransactionRepository
         _context = context;
     }
 
-    public async Task<ICollection<Transaction>> GetAllAsync(string? search, Guid
+    public async Task<ICollection<Transaction>> GetAllAsync(string? search, Guid?
         userId)
     {
         if (search == null || String.IsNullOrWhiteSpace(search))
@@ -34,10 +34,19 @@ public class TransactionRepository : ITransactionRepository
                          t.Email.ToLower().Contains(search) ||
                          t.Code.ToLower().Contains(search) ||
                          t.Currency.ToLower().Contains(search)
-                        ))
+                        ) && t.OwnerId == userId)
             .Include(t => t.PayerReceiver)
             .Include(t => t.Payments)
             .ThenInclude(t => t.Card)
+            .ToListAsync();
+    }
+    public async Task<ICollection<Transaction>> GetAllAsync()
+    {
+        return await _context.Transactions
+            .Include(t => t.PayerReceiver)
+            .Include(t => t.Payments)
+            .ThenInclude(t => t.Card)
+            .Where(t => t.Status == Status.ACTIVE)
             .ToListAsync();
     }
 

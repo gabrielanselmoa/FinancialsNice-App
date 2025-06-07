@@ -25,8 +25,6 @@ public record TransactionResponse
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public TransactionStatus Status { get; init; }
-
     public PayerReceiverResponse? PayerReceiver { get; init; }
-    public GoalResponse? Goal { get; init; }
     public ICollection<PaymentResponse> Payments { get; init; } = new List<PaymentResponse>();
 }

@@ -1,5 +1,5 @@
-﻿using FinancialsNice.Application.Dtos.ResultPattern;
-using FinancialsNice.Application.Dtos.Tickets;
+﻿using FinancialsNice.Application.Dtos.Tickets;
+using FinancialsNice.Domain.Design_Pattern;
 
 namespace FinancialsNice.Application.Interfaces.Services;
 
