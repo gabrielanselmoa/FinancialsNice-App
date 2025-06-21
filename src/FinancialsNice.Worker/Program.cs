@@ -9,16 +9,10 @@ Env.Load("../../.env");
 
 var builder = Host.CreateApplicationBuilder(args);
 
-var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
-var dbPort = Environment.GetEnvironmentVariable("DB_PORT");
-var dbUser = Environment.GetEnvironmentVariable("DB_USERNAME");
-var dbPass = Environment.GetEnvironmentVariable("DB_PASSWORD");
-var dbName = Environment.GetEnvironmentVariable("DB_NAME");
-
-var connectionString = $"Host={dbHost};Port={dbPort};Username={dbUser};Password={dbPass};Database={dbName}";
+var conn = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString));
+    options.UseNpgsql(conn));
 
 builder.Services.AddHostedService<Worker>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
