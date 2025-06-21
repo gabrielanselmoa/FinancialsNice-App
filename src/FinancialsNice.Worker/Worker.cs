@@ -31,7 +31,7 @@ public class Worker : BackgroundService
                         t.TransactionStatus);
                 }
             }
-            await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+            await Task.Delay(TimeSpan.FromDays(1), stoppingToken);
         }
     }
 }
