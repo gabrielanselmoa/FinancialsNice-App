@@ -26,34 +26,7 @@ public class AuthService(
         string confirmationLink = $"http://localhost:3000/email-confirmation/{token}";
 
         // Default Message
-        var defaultMessage = @"
-<div style=""max-width: 600px; margin: 40px auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;"">
-  <h2 style=""text-align: center; color: #2c3e50;"">📧 Confirmação de E-mail</h2>
-
-  <p style=""color: #34495e; font-size: 16px;"">Olá, <strong>{{UserName}}</strong>,</p>
-
-  <p style=""color: #34495e; font-size: 16px;"">
-    Para ativar sua conta FinNice, confirme seu e-mail clicando no botão abaixo:
-  </p>
-
-  <div style=""text-align: center; margin: 30px 0;"">
-    <a href=""{{ConfirmationLink}}"" style=""display: inline-block; padding: 14px 28px; background-color: #27ae60; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 16px;"">
-      Confirmar E-mail
-    </a>
-  </div>
-
-  <p style=""color: #34495e; font-size: 16px;"">
-    Se você não criou uma conta na FinNice, pode ignorar este e-mail com segurança.
-  </p>
-
-  <p style=""color: #34495e; font-size: 16px; margin-top: 30px;"">
-    Atenciosamente,<br><strong>Equipe FinNice</strong>
-  </p>
-
-  <p style=""font-size: 12px; color: #999999; text-align: center; margin-top: 40px;"">
-    Este é um e-mail automático. Por favor, não responda a esta mensagem.
-  </p>
-</div>";
+        var defaultMessage = EmailMessages.EmailConfirmationMessage;
 
         string finalMessage = defaultMessage
             .Replace("{{UserName}}", userName)
