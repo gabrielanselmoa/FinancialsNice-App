@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v4
@@ -42,7 +41,39 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: 🏗️ Build imagem Docker
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest -f src/FinancialsNice.Rest/Dockerfile .
+        # Note: Using the 'dev' tag as per your deploy script's pull command
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/minha-app:dev -f src/FinancialsNice.Rest/Dockerfile .
 
       - name: 🚀 Push imagem para Docker Hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+        # Note: Pushing with the 'dev' tag
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/minha-app:dev
+
+  deploy-to-hetzner:
+    name: Deploy na Hetzner
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Carrega a chave SSH para usar no SSH do próximo step
+      - name: Setup SSH Key
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # 2. Conecta na VM e faz pull + docker-compose
+      - name: Deploy via SSH
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd /${{ secrets.SSH_USER }}/deploy
+            # Loga no Docker Hub (se ainda não estiver logado)
+            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+            # Puxa a versão `dev` mais recente
+            docker pull ${{ secrets.DOCKER_USERNAME }}/minha-app:dev
+
+            # Reinicia o serviço via Docker Compose
+            docker compose down
+            docker compose up -d
+
+            # Limpeza de imagens/paradas (opcional)
+            docker system prune -f
+          EOF
