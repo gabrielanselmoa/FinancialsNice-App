@@ -26,11 +26,12 @@ public class Worker : BackgroundService
                 {
                     t.TransactionStatus = TransactionStatus.COMPLETED;
                     await _transactionRepository.UpdateAsync(t.Id, t);
-                    _logger.LogInformation("The transaction with ID {TransactionId} is currently marked as {Status}",
-                        t.Id,
-                        t.TransactionStatus);
+                    // _logger.LogInformation("The transaction with ID {TransactionId} is currently marked as {Status}",
+                    //     t.Id,
+                    //     t.TransactionStatus);
                 }
             }
+
             await Task.Delay(TimeSpan.FromDays(1), stoppingToken);
         }
     }
