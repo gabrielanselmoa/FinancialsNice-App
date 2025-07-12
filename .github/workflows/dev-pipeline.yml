@@ -42,7 +42,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: 🏗️ Build imagem Docker
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest -f src/FinancialsNice.Rest/Dockerfile .
 
       - name: 🚀 Push imagem para Docker Hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
