@@ -41,11 +41,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: 🏗️ Build imagem Docker
-        # Note: Using the 'dev' tag as per your deploy script's pull command
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/minha-app:dev -f src/FinancialsNice.Rest/Dockerfile .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest -f src/FinancialsNice.Rest/Dockerfile .
 
       - name: 🚀 Push imagem para Docker Hub
-        # Note: Pushing with the 'dev' tag
         run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
 
   deploy-to-hetzner:
